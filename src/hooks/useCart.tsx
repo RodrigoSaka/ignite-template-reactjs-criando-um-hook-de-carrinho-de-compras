@@ -35,10 +35,11 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
   const addProduct = async (productId: number) => {
     try {
       const { data: product } = await api.get<Product>(`/products/${productId}`);
+      product.amount = 1;
       const foundProduct = cart.find(p => p.id === product.id);
 
       if (foundProduct) {
-        const amount = foundProduct.amount++;
+        const amount = ++foundProduct.amount;
         updateProductAmount({ productId, amount });
         return;
       }
